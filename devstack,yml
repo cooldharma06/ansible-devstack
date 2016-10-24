@@ -1,0 +1,26 @@
+---
+- hosts: opens
+  remote_user: root
+  vars:
+    # created with 
+    # import crypt; print crypt.crypt('my password is","opens"
+    password : dhkahd@!232308293212132!@#
+# use to gather fact and to configure interface and ip
+  gather_facts: no
+
+  tasks:
+
+  - name: create opens user and give sudo permission
+    user: name=opens comments=OpensUser state=present groups="sudo" password={{password}}
+ 
+  - name: install git
+    apt: name=git state=installed update_cache=yes
+
+  - name: get devstack from github
+    git: repo=https://github.com/openstack-dev/devstack.git dest=/home/opens/Documents
+
+  - name: clone devstack configuration from github
+    git: repo=https://github.com/cooldharma06/ansible-devstack/blob/master/local.conf.txt dest=/home/opens/Documents/devstack/local.conf
+
+  - name: installing devstack 
+    command: /home/opens/Documents/devstack/stack.sh
