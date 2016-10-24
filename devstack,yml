@@ -20,7 +20,7 @@
     git: repo=https://github.com/openstack-dev/devstack.git dest=/home/opens/Documents
 
   - name: clone devstack configuration from github
-    git: repo=https://github.com/cooldharma06/ansible-devstack/blob/master/local.conf.txt dest=/home/opens/Documents/devstack/local.conf
+    git: repo=https://github.com/cooldharma06/ansible-devstack/blob/master/local.conf dest=/home/opens/Documents/devstack/
 
   - name: installing devstack 
     command: /home/opens/Documents/devstack/stack.sh
