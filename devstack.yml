@@ -1,0 +1,52 @@
+---
+- hosts: 192.168.56.102
+
+#  remote_user: root
+  vars:
+    # created with 
+    # import crypt; print crypt.crypt('my password is","stack"
+   password : stAG9TJK.te7I
+# use to gather fact and to configure interface and ip
+  gather_facts: no
+
+  tasks:
+
+  - name: ping test
+    ping:
+
+  - name: create stack user
+    user: name=stack state=present password={{password}}
+    become: yes 
+
+  - name: giving sudo permission to the stack user - copying
+    copy: src=/etc/sudoers dest=/etc/sudoers.tmp remote_src=true
+
+  - name: adding the stack user to sudoers file
+    lineinfile: "dest=/etc/sudoers.tmp state=present regexp='^%stack' line='%stack ALL=(ALL) NOPASSWD: ALL'"
+    
+  - name: overwriting the sudoers file
+    shell: cp -f /etc/sudoers.tmp /etc/sudoers 
+ 
+  - name: install git
+    become: yes
+#    become_user: stack
+    apt: name=git state=installed update_cache=yes
+
+# it will works fine if proxy is not there 
+  - name: get devstack from github
+    become: yes
+    become_user: stack
+    git: repo=https://github.com/stacktack-dev/devstack.git dest=/home/stack/Documents
+    environment:
+       http_proxy: http://proxy.esl.cisco.com:8080
+       https_proxy: http://proxy.esl.cisco.com:8080
+
+
+# with proxy git download
+
+
+# - name: clone devstack configuration from github
+#   git: repo=https://github.com/cooldharma06/ansible-devstack/blob/master/local.conf dest=/home/stack/Documents/devstack/
+
+# - name: installing devstack 
+#   command: /home/stack/Documents/devstack/stack.sh
