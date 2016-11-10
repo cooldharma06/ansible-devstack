@@ -36,7 +36,7 @@
   - name: get devstack from github
     become: yes
     become_user: stack
-    git: repo=https://github.com/stacktack-dev/devstack.git dest=/home/stack/Documents
+    git: repo=https://github.com/openstack-dev/devstack.git dest=/home/stack/Documents/devstack
     environment:
        http_proxy: http://proxy.esl.cisco.com:8080
        https_proxy: http://proxy.esl.cisco.com:8080
