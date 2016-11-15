@@ -8,4 +8,6 @@ Tools used:
 2. Ansible - configuration management tool which will install OpenStack(devstack) in Vagrant vm.
 
 
+ansible-playbook devstack.yml -u "cool" -v --become --ask-become-pass -vvvv
+
 
